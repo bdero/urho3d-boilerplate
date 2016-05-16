@@ -1,0 +1,100 @@
+providers: [
+  {
+    key: "bt"
+    config:
+      commands: [
+        {
+          project: "."
+          source: "./.build-tools.cson"
+          name: "CMake"
+          command: "cmake"
+          wd: "."
+          env: {}
+          modifier:
+            env:
+              URHO3D_HOME: "Urho3D"
+          environment:
+            name: "child_process"
+            config:
+              stdoe: "both"
+          stdout:
+            pipeline: []
+          stderr:
+            pipeline: []
+          output:
+            console:
+              close_success: true
+              queue_in_buffer: true
+              colors: false
+              stdin: false
+          version: 2
+        }
+        {
+          project: "."
+          source: "./.build-tools.cson"
+          name: "Build"
+          command: "make"
+          wd: "."
+          env: {}
+          modifier:
+            dependency:
+              list: [
+                [
+                  "0"
+                  "0"
+                  "CMake"
+                ]
+              ]
+              abort: true
+          environment:
+            name: "child_process"
+            config:
+              stdoe: "both"
+          stdout:
+            pipeline: []
+          stderr:
+            pipeline: []
+          output:
+            console:
+              close_success: true
+              queue_in_buffer: true
+              colors: false
+              stdin: false
+          version: 2
+        }
+        {
+          project: "."
+          source: "./.build-tools.cson"
+          name: "Run"
+          command: "./bin/Main"
+          wd: "."
+          env: {}
+          modifier:
+            dependency:
+              list: [
+                [
+                  "0"
+                  "1"
+                  "Build"
+                ]
+              ]
+              abort: true
+          environment:
+            name: "child_process"
+            config:
+              stdoe: "both"
+          stdout:
+            pipeline: []
+          stderr:
+            pipeline: []
+          output:
+            console:
+              close_success: true
+              queue_in_buffer: true
+              colors: false
+              stdin: false
+          version: 2
+        }
+      ]
+  }
+]
